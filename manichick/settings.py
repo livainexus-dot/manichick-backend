@@ -15,11 +15,7 @@ IS_PRODUCTION = os.environ.get('RENDER', False)
 if IS_PRODUCTION:
     DEBUG = False
     SECRET_KEY = os.environ.get('SECRET_KEY', 'fallback-key-changer')
-    ALLOWED_HOSTS = [
-        '.onrender.com',
-        'localhost',
-        '127.0.0.1',
-    ]
+    ALLOWED_HOSTS = ['*']
 else:
     DEBUG = True
     ALLOWED_HOSTS = ['*']

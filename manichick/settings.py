@@ -123,7 +123,7 @@ AUTH_USER_MODEL = 'utilisateurs.Utilisateur'
 # ── Railway / développement local ────────────────────────
 # Railway injecte automatiquement DATABASE_URL.
 # On l'utilise directement sans condition.
-DATABASE_URL = os.environ.get('DATABASE_URL')
+DATABASE_URL = os.environ.get('DATABASE_URL') or os.environ.get('DATABASE_URL_TEST')
 
 if DATABASE_URL:
     # Mode production Railway — utilise DATABASE_URL

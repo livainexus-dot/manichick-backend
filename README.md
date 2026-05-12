@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🐔 Manichick Backend - Système de Gestion de Poulailler
 
 Bienvenue dans la partie serveur du projet **Manichick**. Ce projet permet de surveiller et de contrôler un poulailler intelligent via l'IoT et une application mobile.
@@ -29,3 +30,6 @@ Le dossier remis contient :
 ---
 **Développé par :** lambou (Étudiant PFE)
 **Session :** Mai 2026
+=======
+# manichick-backend
+>>>>>>> 1e6d6b6100dcab837652a4a7164f17a0a82d6d98

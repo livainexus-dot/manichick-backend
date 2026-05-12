@@ -9,8 +9,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # En production, cette clé doit être secrète et dans une variable d'environnement
 SECRET_KEY = 'manichick-secret-key-changer-en-production'
 
-# Render définit automatiquement RENDER=True
-IS_PRODUCTION = os.environ.get('RENDER', False)
+# Render définit RENDER=True, Railway fournit DATABASE_URL/RAILWAY_ENVIRONMENT.
+IS_PRODUCTION = bool(
+    os.environ.get('RENDER')
+    or os.environ.get('RAILWAY_ENVIRONMENT')
+    or os.environ.get('DATABASE_URL')
+)
 
 if IS_PRODUCTION:
     DEBUG = False
@@ -81,7 +85,7 @@ WSGI_APPLICATION = 'manichick.wsgi.application'
 if IS_PRODUCTION:
     DATABASES = {
         'default': dj_database_url.config(
-            default=os.environ.get('DATABASE_URL'),
+            default=os.environ.get('DATABASE_URL', ''),
             conn_max_age=600,
         )
     }

@@ -124,12 +124,38 @@ AUTH_USER_MODEL = 'utilisateurs.Utilisateur'
 # Railway injecte automatiquement DATABASE_URL.
 # On l'utilise directement sans condition.
 DATABASE_URL = os.environ.get('DATABASE_URL') or os.environ.get('DATABASE_URL_TEST')
+RAILWAY_PUBLIC_DOMAIN = os.environ.get('RAILWAY_PUBLIC_DOMAIN')
+
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '.railway.app',
+]
+
+if RAILWAY_PUBLIC_DOMAIN:
+    ALLOWED_HOSTS.append(RAILWAY_PUBLIC_DOMAIN)
+
+extra_allowed_hosts = os.environ.get('ALLOWED_HOSTS')
+if extra_allowed_hosts:
+    ALLOWED_HOSTS += [
+        host.strip()
+        for host in extra_allowed_hosts.split(',')
+        if host.strip()
+    ]
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost',
+    'http://127.0.0.1',
+    'https://*.railway.app',
+]
+
+if RAILWAY_PUBLIC_DOMAIN:
+    CSRF_TRUSTED_ORIGINS.append(f'https://{RAILWAY_PUBLIC_DOMAIN}')
 
 if DATABASE_URL:
     # Mode production Railway — utilise DATABASE_URL
     DEBUG = False
     SECRET_KEY = os.environ.get('SECRET_KEY', 'manichick-secret-2026')
-    ALLOWED_HOSTS = ['*']
     DATABASES = {
         'default': dj_database_url.config(
             default=DATABASE_URL,
@@ -145,7 +171,6 @@ if DATABASE_URL:
 else:
     # Mode développement local Kali Linux
     DEBUG = True
-    ALLOWED_HOSTS = ['*']
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
